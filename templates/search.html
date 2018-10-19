@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+<body id="body" class="text-center container-fluid">
+  {% block title%}
+  <h2>{{subtitle}} </h2>
+  <h2>{{error}}</h2>
+  <h6>search.html</h6>
+  {% endblock %}
+  {% block body%}
+  <h6>Login Successful</h6>
+  {% if g.id %}
+  <p>User test passed</p>
+  <li><span>user_id {{ g.id }}</span></li>
+  {% endif%}
+  <div class="container">
+    <form action = "http://localhost:5000/logout" method = "POST" class = "navbuttons">
+      <input type="submit"  value="Logout" class="btn-primary navbuttons">
+    </form>
+  </div>
+</body>
+{% endblock %}

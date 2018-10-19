@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+<body id="body" class="text-center container-fluid">
+  {% block title%}
+  <h2>{{subtitle}} </h2>
+  <h2>{{error}}</h2>
+  <h6>{{count}}</h6>
+  <h3 class="TODO">Add Decorator to other pages for valid log (g.id)</h3>
+  <h3 class="TODO">Clear g.id on logout</h3>
+  {% endblock %}
+  {% block body%}
+  <h6>Login Successful</h6>
+  {% if g.id %}
+  <p>User test passed</p>
+  <li><span>user_id {{ g.id }}</span></li>
+  {% endif%}
+  <div class="container">
+  </div>
+</body>
+{% endblock %}

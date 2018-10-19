@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title%}
+<h1>{{subtitle}}</h1>
+<h2>In Project 1 login.html title block</h2>
+{% endblock %}
+{% block body%}
+<body id="body" class="text-center container-fluid">
+  <div class="container">
+    <div class="test">
+      <div class="test">
+        <ul>
+          {% block users%}
+          {% if subtitle=="Registration Page" %}
+          <p> Registered Users</p>
+          {% for user in users %}
+          <li value="{{ user.id }}">{{ user.username }} </li>
+          {% endfor %}
+          {% endif %}
+          {% if subtitle=="Login Page" %}
+          <p> Hashes</p>
+          {% for user in users %}
+          <li value="{{ user.id }}">{{ user.password }} </li>
+          {% endfor %}
+          {% endif %}
+          {% endblock %}
+        </ul>
+        <div class="container">
+        </div>
+      </div>
+    </div>
+  </div>
+  <h3 class="TODO">Add Logout</h3>
+  <h3 class="TODO">Format form (see Flask Tutorial)</h3>
+  <div class="debug">
+    <p>{{username}}, {{password}}</p>
+    <p>Count: {{count}}</p>
+    <h3 class="TODO">Format Error Statement</h3>
+    <p>{{error}}</p>
+  </div>

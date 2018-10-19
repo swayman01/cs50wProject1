@@ -1,0 +1,25 @@
+$easytoreadcolor: #fbf5e6;
+@media screen {$easytoreadcolor: #fbf5e6;}
+@media print {$easytoreadcolor: white}
+h1,h2,h1+h5,h6 {text-align: center;}
+ul {list-style-type: none;
+  padding-left: 0
+}
+/* TODO Use a variable for margin and colors*/
+
+section {margin:0 10% 0 10%}
+nav {
+  background: lightgray;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+.navbuttons {
+  padding:10px;
+  margin:2%;
+}
+.navbar{
+  width: 100%;
+  text-align: center;
+}
+.TODO {color:red}

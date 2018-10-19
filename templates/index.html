@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+<body id="body" class="text-center container-fluid">
+  {% block title%}
+  <h2>{{subtitle}}</h2>
+  <h6>(index.html)</h6>
+  {% endblock %}
+  {% block body%}
+  <h6>{{error}} </h6>
+  <br />
+  <h6 class="TODO">Center and Space buttons using grid layout instead of class row</h6>
+  <div id="button-container" class="row btn-group-lg">
+  <form action = "http://localhost:5000/registration" method = "POST" class = "navbuttons">
+    <input type="submit" value="Register" class="btn-primary">
+  </form>
+  <form action = "http://localhost:5000/login" method = "POST" class = "navbuttons">
+    <input type="submit"  value="Login" class="btn-primary">
+
+  </form>
+</div>
+  {% endblock %}

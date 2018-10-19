@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+<body id="body" class="text-center container-fluid">
+  {% block title%}
+  <h2>{{subtitle}}</h2>
+  <h6>(users.html)</h6>
+  {% endblock %}
+  {% block body%}
+  <h2>{{error}} </h2>
+  <h3>Begin Flask Tutorial Block</h3>
+  <div class="TODO">Center nav block and texts</div>
+  <nav>
+    {% if subtitle=="Registration Page" %}
+    <form method="post" action="http://localhost:5000/register" >
+      <div>
+        <label for="username">Username: </label>
+        <input name="username" id="username" required>
+      </div>
+      <div>
+        <label for="password">Password:  </label>
+        <input type="password" name="password" id="password" required>
+      </div>
+      <div>
+        <input type="submit" value="Register">
+      </div>
+    </form>
+    {% endif %}
+    {% if subtitle=="Login Page" %}
+    <form method="post" action="http://localhost:5000/loginuser" >
+      <div>
+        <label for="username">Username: </label>
+        <input name="username" id="username" required>
+      </div>
+      <div>
+        <label for="password">Password:  </label>
+        <input type="password" name="password" id="password" required>
+      </div>
+      <div>
+        <input type="submit" value="Login">
+      </div>
+    </form>
+    {% endif %}
+  </nav>
+  <h3>End Flask Tutorial Block</h3>
+  <br />
+  <div class="container">
+    <div class="test">
+      {% block users%}
+      {% if subtitle=="Registration Page" %}
+      <p> Registered Users</p>
+      {% for user in users %}
+      <div><span>{{ user.id }}: </span><span>{{ user.username }}</span></div>
+      {% endfor %}
+      {% endif %}
+      {% endblock %}
+      <div class="container">
+      </div>
+    </div> <!-- class.test -->
+  </div> <!-- class.container -->
+
+  <h6 class="TODO">Add Logout</h6>
+  {% endblock %}
