@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+<body id="body" class="text-center container-fluid">
+  {% block title%}
+  <h2>{{subtitle}}</h2>
+  <h6>(bookpage.html)</h6>
+  <h6>{{error}}</h6>
+  {% endblock %}
+  {% block body%}
+
+  <div class="container">
+    <h2> Stuff</h2>
+    <h5 class="TODO">Goodreads</h5>
+    <div class="container">
+      <h2> Book Matches</h2>
+      <p class="TODO">Format</p>
+      <p class="TODO">Repeat code for isbn and title</p>
+      <p class="TODO">Do we need global currentisbn?</p>
+      {% block books%}
+      <ul>
+
+        <li>{{isbn}}, <!-- test code -->
+          Number of Ratings: {{nratings}}, 
+          Average Rating: {{avgrating}}
+          </li>
+        </ul>
+        {% endblock %}
+      </div>
+      <h5 class="TODO">Review</h5>
+      <p class="TODO">Format</p>
+
+    </div> <!-- class.container -->
+
+    <div class= "navbar">
+      <span class="col-xs-2"></span>
+      <span class="col-xs-3">
+        <form action = "http://localhost:5000/search" method = "POST" class = "navbuttons">
+          <input type="submit"  value="Search" class="btn-primary">
+        </form>
+
+      </span>
+      <span class="col-xs-2"></span>
+      <span class="col-xs-3">
+        <form action = "http://localhost:5000/logout" method = "POST" class = "navbuttons">
+          <input type="submit" value="Logout" class="btn-primary">
+        </form>
+      </span>
+      <span class="col-xs-2"></span>
+    </div> <!-- navbar -->
+    {% endblock %}
