@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+<body id="body" class="text-center container-fluid">
+  {% block title%}
+  <h2>{{subtitle}}</h2>
+  <h6>(test.html)</h6>
+  <h6>{{error}}</h6>
+  {% endblock %}
+  {% block body%}
+  <div class="container">
+    <div class="test">
+      {% block users%}
+      <h6> Form Output (for testing)</h6>
+      <p>ISBN: {{ISBN}}</p>
+      <p>Title: {{title}}</p>
+      <p>Author: {{author}}</p>
+      {% endblock %}
+      <div class="container">
+      </div>
+    </div> <!-- class.test -->
+  </div> <!-- class.container -->
+  {% endblock %}
