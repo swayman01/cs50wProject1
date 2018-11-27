@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+<body id="body" class="text-center container-fluid">
+  {% block title%}
+  <h2>{{subtitle}}</h2>
+  <h6>(booksdebug.html)</h6>
+  <h6>{{error}}</h6>
+  {% endblock %}
+
+  {% block body%}
+  <div class="container">
+    <div class="test">
+
+      {% block form %}
+      <h3> Form Output (for testing)</h3>
+      <p>ISBN: {{isbn}}</p>
+      <p>Title: {{title}}</p>
+      <p>Author: {{author}}</p>
+      <h3>End Form Output</h3>
+      {% endblock %}
+      <!-- block form -->
+      <h2 class="TODO">Fill in books with parital inputs</h2>
+      <h6 class="TODO">Start with test file using Like %a</h6>
+      <div class="container">
+        <h2> Book Matches</h2>
+        {% block books%}
+        <h3 class="TODO">Debug test</h3>
+        {% endblock %}
+        <!-- block books -->
+
+      </div>
+    </div>
+    {% endblock %}
+  </body>

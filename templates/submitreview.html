@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+<body id="body" class="text-center container-fluid">
+  {% block title%}
+  <h2>{{subtitle}}</h2>
+  <h6>(submitreview.html)</h6>
+  <h6>{{error}}</h6>
+  <h2 class="TODO">Make this page look like bookpage.html</h2>
+  {% endblock %}
+  {% block body%}
+
+  {% if book_reviewed == False %}
+  <div class="container">
+  <p>You gave this book {{nstars}} stars</p>
+    <p class="TODO">Format</p>
+    <p>{{reviewtext}}</p>
+  </div>
+  {% endif %}
+
+  {% if book_reviewed == true %}
+  <h2 class="TODO">User Review goes here</h2>
+  {% endif %}
+
+
+  <div class= "navbar">
+    <span class="col-xs-2"></span>
+    <span class="col-xs-3">
+      <form action = "http://localhost:5000/search" method = "POST" class = "navbuttons">
+        <input type="submit"  value="Search" class="btn-primary">
+      </form>
+
+    </span>
+    <span class="col-xs-2"></span>
+    <span class="col-xs-3">
+      <form action = "http://localhost:5000/logout" method = "POST" class = "navbuttons">
+        <input type="submit" value="Logout" class="btn-primary">
+      </form>
+    </span>
+    <span class="col-xs-2"></span>
+  </div> <!-- navbar -->
+  {% endblock %}

@@ -7,43 +7,86 @@
   {% endblock %}
   {% block body%}
 
-  <div class="container">
-    <h2> Stuff</h2>
-    <h5 class="TODO">Goodreads</h5>
-    <div class="container">
-      <h2> Book Matches</h2>
-      <p class="TODO">Format</p>
-      <p class="TODO">Repeat code for isbn and title</p>
-      <p class="TODO">Do we need global currentisbn?</p>
-      {% block books%}
-      <ul>
+  {% block books%}
+  <div class="goodreads container">
+    <h3>Goodreads Data</h3>
+    <p class="TODO">Format</p>
+    <ul>
+      <li>ISBN: {{isbn}},
+        Title: {{title}},
+        Author: {{author}},
+        Number of Ratings: {{nratings}},
+        Average Rating: {{avgrating}}
+      </li>
+    </ul>
+  </div> <!-- class.container goodreads-->
+  {% endblock %}
 
-        <li>{{isbn}}, <!-- test code -->
-          Number of Ratings: {{nratings}}, 
-          Average Rating: {{avgrating}}
-          </li>
-        </ul>
-        {% endblock %}
-      </div>
-      <h5 class="TODO">Review</h5>
-      <p class="TODO">Format</p>
-
-    </div> <!-- class.container -->
-
-    <div class= "navbar">
-      <span class="col-xs-2"></span>
-      <span class="col-xs-3">
-        <form action = "http://localhost:5000/search" method = "POST" class = "navbuttons">
-          <input type="submit"  value="Search" class="btn-primary">
-        </form>
-
-      </span>
-      <span class="col-xs-2"></span>
-      <span class="col-xs-3">
-        <form action = "http://localhost:5000/logout" method = "POST" class = "navbuttons">
-          <input type="submit" value="Logout" class="btn-primary">
-        </form>
-      </span>
-      <span class="col-xs-2"></span>
-    </div> <!-- navbar -->
+  <div class="classreviews container">
+    <h3>Reviews from Fellow Classmates</h3>
+    <p class="TODO">Change to No Reviews if there are no reviews</p>
+    {% block classreviews%}
+    {% for review in reviews %}
+    {% if review.user_id!=user %}
+    <ul>
+      <li>User: {{ review.username }}, Number of Stars {{review.num_stars}},
+        Review: {{review.review}}
+      </li>
+    </ul>
+    {% endif %}
+    {% endfor %}
     {% endblock %}
+  </div> <!-- class.container classreviews-->
+
+  <div class="yourreview container">
+    <h5 class="TODO">Add Delete and Edit buttons</h5>
+    {% if book_reviewed == true %}
+        {% for review in reviews %}
+            {% if review.user_id==user %}
+    <p>You gave this book {{review.num_stars}} stars</p>
+    <p class="TODO">Format</p>
+    <p>{{review.review}}</p>
+  </div>
+          {% endif %}
+      {% endfor %}
+  {% endif %}
+
+  {% if book_reviewed == False %}
+  <div id="ReviewSubmission" class="container">
+    <div class="form-group">
+      <form action = "http://localhost:5000/submitreview" method = "POST">
+        <p class="TODO">Make number of stars a requirement</p>
+        <span>Number of Stars:</span>
+        <span>
+          <input type="radio" name="options" id="option1" value=1> 1 </input>
+          <input type="radio" name="options" id="option2" value=2> 2 </input>
+          <input type="radio" name="options" id="option3" value=3> 3 </input>
+          <input type="radio" name="options" id="option3" value=4> 4 </input>
+          <input type="radio" name="options" id="option3" value=5> 5 </input>
+        </span>
+        <br><br>
+        <label for="reviewtext">Enter Your Review Here</label>
+        <textarea class="form-control" id="reviewtext" name="reviewtext" rows="3"></textarea>
+        <input type="submit"  value="Submit" class="btn-primary" id="reviewtext">
+      </form>
+    </div>
+  </div>
+  {% endif %}
+
+
+  <div class= "navbar">
+    <span class="col-xs-2"></span>
+    <span class="col-xs-3">
+      <form action = "http://localhost:5000/search" method = "POST" class = "navbuttons">
+        <input type="submit"  value="Search" class="btn-primary">
+      </form>
+    </span>
+    <span class="col-xs-2"></span>
+    <span class="col-xs-3">
+      <form action = "http://localhost:5000/logout" method = "POST" class = "navbuttons">
+        <input type="submit" value="Logout" class="btn-primary">
+      </form>
+    </span>
+    <span class="col-xs-2"></span>
+  </div> <!-- navbar -->
+  {% endblock %}

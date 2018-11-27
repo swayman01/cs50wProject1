@@ -1,18 +1,29 @@
 $easytoreadcolor: #fbf5e6;
+$papercolor: #fbfbf8;
+/* Other white colors: https://encycolorpedia.com/fdf5e8 */
 @media screen {$easytoreadcolor: #fbf5e6;}
+@media screen {$papercolor: #fbf5e6;}
 @media print {$easytoreadcolor: white}
 h1,h2,h1+h5,h6 {text-align: center;}
 ul {list-style-type: none;
   padding-left: 0
 }
 /* TODO Use a variable for margin and colors*/
-
+body {background-color: $papercolor}
 section {margin:0 10% 0 10%}
 nav {
   background: lightgray;
   display: flex;
   align-items: center;
   padding: 0.5rem;
+}
+.goodreads, .classreviews, .yourreview {
+  border-style: double;
+  border-color: black;
+  border-width: 5px;
+}
+.onerow {
+    display: inline-block; //Or display: inline;
 }
 .navbuttons {
   padding:10px;
