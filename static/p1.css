@@ -1,3 +1,4 @@
+/* Other white colors: https://encycolorpedia.com/fdf5e8 */
 h1, h2, h1 + h5, h6 {
   text-align: center; }
 
@@ -6,6 +7,9 @@ ul {
   padding-left: 0; }
 
 /* TODO Use a variable for margin and colors*/
+body {
+  background-color: #fbfbf8; }
+
 section {
   margin: 0 10% 0 10%; }
 
@@ -14,6 +18,18 @@ nav {
   display: flex;
   align-items: center;
   padding: 0.5rem; }
+
+#criteria {
+  margin: 0 30% 0 30%;
+  width: 40%; }
+
+.goodreads, .classreviews, .yourreview {
+  border-style: double;
+  border-color: black;
+  border-width: 5px; }
+
+.onerow {
+  display: inline-block; }
 
 .navbuttons {
   padding: 10px;

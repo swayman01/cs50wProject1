@@ -32,9 +32,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 Session(app)
 
 global currentisbn
-currentisbn=[]
-currentisbn.append("-1")
-currentisbn.append("-2")
+currentisbn="-1"
 #  __init__.py from flaskr Tutorial
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
@@ -160,11 +158,11 @@ def loginuser():
                     username=username,error=error)
     except:
         return render_template("index.html", subtitle=subtitle, users=username,
-                username=username,error="Line 130")
+                username=username,error="Error in retrieving data(line 161)")
     session.clear()
     session['user_id'] = user['id']
     g.user = db.execute("SELECT * FROM user_rev1 WHERE user_rev1.username = :username", {"username": username}).fetchone()
-    return render_template("search.html",subtitle=subtitle,error=session['user_id'])
+    return render_template("search.html",subtitle=subtitle,error="")
 
 
 def login_required(view):
@@ -187,7 +185,7 @@ def login_required(view):
 @app.route("/search",methods=['POST','GET'])
 @login_required
 def search():
-    subtitle="Line 175: search.html from route"
+    subtitle="Line 188: search.html from route"
     try:
         return render_template("search.html",subtitle=subtitle,error=session['user_id'])
     except:
@@ -218,19 +216,21 @@ def books():
                 #return books with matching ISBN, assume ISBN is unique
                 error = "ISBN Search"
                 books = db.execute("SELECT * FROM books WHERE books.isbn = :isbn", {"isbn": isbn}).fetchall()
-                currentisbn=[]
+                #currentisbn=[]
                 for book in books:
-                     currentisbn.append(book[1])
+                     #currentisbn.append(book[1])
+                     currentisbn=book[1]
                 return render_template("books.html", subtitle=subtitle, error=error,
                 isbn=str(isbn), books=books)
             if bookct <1:
                 # Try title
                 books = db.execute("SELECT * FROM books WHERE books.title LIKE :title", {"title": title})
                 bookct = 0
-                currentisbn=[]
+                #currentisbn=[]
                 for book in books:
                     bookct += 1
-                    currentisbn.append(book[1])
+                    #currentisbn.append(book[1])
+                    currentisbn=book[1]
                 if bookct >= 1:
                     #return books with matching title
                     books = db.execute("SELECT * FROM books WHERE books.title LIKE :title", {"title": title})
@@ -238,13 +238,13 @@ def books():
                     title=title, author=author, books=books,currentisbn=currentisbn)
                 if bookct <1:
                     #Try author
-
                     books = db.execute("SELECT * FROM books WHERE books.author LIKE :author", {"author": author})
                     bookct = 0
-                    currentisbn=[]
+                    #currentisbn=[]
                     for book in books:
                         bookct += 1
-                        currentisbn.append(book[1])
+                        #currentisbn.append(book[1])
+                        currentisbn=book[1]
                     if bookct >= 1:
                         #return books with matching author
                         books = db.execute("SELECT * FROM books WHERE books.author LIKE :author", {"author": author})
@@ -274,6 +274,7 @@ def bookpage():
     user=session['user_id']
     isbn = request.form['bookisbn']
     currentisbn=isbn
+    #return currentisbn #currentisbn is set here
     res = requests.get("https://www.goodreads.com/book/review_counts.json", \
     params={"key": " hj7IlmJs5Em6ojWbiZy8A", "isbns": isbn})
     data_json = res.json()
@@ -323,12 +324,32 @@ def submitreviewtest():
     return render_template("submitreview.html", subtitle=subtitle)
 
 
-@app.route("/submitreview",methods=['POST','GET'])
+@app.route('/submitreview',methods=['POST','GET'])
 @login_required
 def submitreview():
     subtitle="Your Review"
-    global currentisbn
-    isbn=str(currentisbn)
+    global currentisbn #currentisbn not set here
+    isbn=currentisbn
+    user=session['user_id']
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", \
+    params={"key": " hj7IlmJs5Em6ojWbiZy8A", "isbns": isbn})
+    data_json = res.json()
+    books_json = data_json['books']
+    nratings = books_json[0]['work_ratings_count']
+    avgrating = books_json[0]['average_rating']
+    books = db.execute("SELECT * FROM books WHERE books.isbn = :isbn", {"isbn": isbn}).fetchone()
+    book_reviewed = False
+    reviews = db.execute("SELECT user_id, username, num_stars, review \
+        FROM user_rev1 RIGHT JOIN reviews ON reviews.user_id = user_rev1.id \
+        WHERE reviews.book_id=:isbn", {"isbn": isbn}).fetchall()
+    revcount = 0
+    for review in reviews:
+        revcount +=1
+        if review.user_id == session['user_id']:
+            book_reviewed = True
+    error = book_reviewed
+    title=books.title
+    author=books.author
     book_reviewed = False
     if request.method == 'POST':
         number_stars = -1
@@ -346,19 +367,23 @@ def submitreview():
         db.execute("INSERT INTO reviews (user_id, book_id, num_stars, review) \
         VALUES (:user_id, :book_id, :num_stars, :review)",
         {"user_id": user_id, "book_id": book_id, "num_stars": num_stars, "review": review})
-        db.commit()
+        #db.commit()TODO Uncomment
         reviews = db.execute("SELECT user_id, username, num_stars, review \
             FROM user_rev1 RIGHT JOIN reviews ON reviews.user_id = user_rev1.id \
             WHERE reviews.book_id=:isbn", {"isbn": isbn}).fetchall()
+        r = db.execute("SELECT user_id, username, num_stars, review \
+            FROM user_rev1 RIGHT JOIN reviews ON reviews.user_id = user_rev1.id \
+            WHERE reviews.book_id=:isbn", {"isbn": isbn}).fetchone()
+
         revcount = 0
         for review in reviews:
             revcount +=1
             if review.user_id == session['user_id']:
                 book_reviewed = True
         error = book_reviewed
-        title="Add title"
+        #title="Add title"
         #title=books.title
-        author="Add author"
+        #author="Add author"
         #author=books.author
         nratings="add nratings"
         avgrating="avgrating"

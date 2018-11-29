@@ -39,54 +39,57 @@
   </div> <!-- class.container classreviews-->
 
   <div class="yourreview container">
+    <h3>Your review</h3>
     <h5 class="TODO">Add Delete and Edit buttons</h5>
+    <h5 class="TODO">Move Search and Logout outside of the box</h5>
     {% if book_reviewed == true %}
-        {% for review in reviews %}
-            {% if review.user_id==user %}
+    {% for review in reviews %}
+    {% if review.user_id==user %}
     <p>You gave this book {{review.num_stars}} stars</p>
-    <p class="TODO">Format</p>
     <p>{{review.review}}</p>
+    <p class="TODO">Format</p>
   </div>
-          {% endif %}
-      {% endfor %}
+  {% endif %}
+  {% endfor %}
   {% endif %}
 
   {% if book_reviewed == False %}
   <div id="ReviewSubmission" class="container">
     <div class="form-group">
-      <form action = "http://localhost:5000/submitreview" method = "POST">
-        <p class="TODO">Make number of stars a requirement</p>
-        <span>Number of Stars:</span>
-        <span>
-          <input type="radio" name="options" id="option1" value=1> 1 </input>
-          <input type="radio" name="options" id="option2" value=2> 2 </input>
-          <input type="radio" name="options" id="option3" value=3> 3 </input>
-          <input type="radio" name="options" id="option3" value=4> 4 </input>
-          <input type="radio" name="options" id="option3" value=5> 5 </input>
-        </span>
-        <br><br>
-        <label for="reviewtext">Enter Your Review Here</label>
-        <textarea class="form-control" id="reviewtext" name="reviewtext" rows="3"></textarea>
-        <input type="submit"  value="Submit" class="btn-primary" id="reviewtext">
-      </form>
-    </div>
+      <form action = "http://localhost:5000/submitreview" method = "POST"
+      input type="hidden" name="isbn" value={{isbn}}>
+      <p class="TODO">Make number of stars a requirement</p>
+      <span>Number of Stars:</span>
+      <span>
+        <input type="radio" name="options" id="option1" value=1> 1 </input>
+        <input type="radio" name="options" id="option2" value=2> 2 </input>
+        <input type="radio" name="options" id="option3" value=3> 3 </input>
+        <input type="radio" name="options" id="option3" value=4> 4 </input>
+        <input type="radio" name="options" id="option3" value=5> 5 </input>
+      </span>
+      <br><br>
+      <label for="reviewtext">Enter Your Review Here</label>
+      <textarea class="form-control" id="reviewtext" name="reviewtext" rows="3"></textarea>
+      <input type="submit"  value="Submit" class="btn-primary" id="reviewtext">
+    </form>
   </div>
-  {% endif %}
+</div>
+{% endif %}
 
 
-  <div class= "navbar">
-    <span class="col-xs-2"></span>
-    <span class="col-xs-3">
-      <form action = "http://localhost:5000/search" method = "POST" class = "navbuttons">
-        <input type="submit"  value="Search" class="btn-primary">
-      </form>
-    </span>
-    <span class="col-xs-2"></span>
-    <span class="col-xs-3">
-      <form action = "http://localhost:5000/logout" method = "POST" class = "navbuttons">
-        <input type="submit" value="Logout" class="btn-primary">
-      </form>
-    </span>
-    <span class="col-xs-2"></span>
-  </div> <!-- navbar -->
-  {% endblock %}
+<div class= "navbar">
+  <span class="col-xs-2"></span>
+  <span class="col-xs-3">
+    <form action = "http://localhost:5000/search" method = "POST" class = "navbuttons">
+      <input type="submit"  value="Search" class="btn-primary">
+    </form>
+  </span>
+  <span class="col-xs-2"></span>
+  <span class="col-xs-3">
+    <form action = "http://localhost:5000/logout" method = "POST" class = "navbuttons">
+      <input type="submit" value="Logout" class="btn-primary">
+    </form>
+  </span>
+  <span class="col-xs-2"></span>
+</div> <!-- navbar -->
+{% endblock %}

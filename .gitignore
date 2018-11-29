@@ -1,0 +1,8 @@
+CreateSQLTable.py
+__pycache__/
+books_short.csv
+flask_session/
+gitignore
+import_u0.py
+templates/submitreviewtests.html
+static/p1.css.map
