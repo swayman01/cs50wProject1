@@ -1,0 +1,99 @@
+{% extends "bookpage.html" %}
+<body id="body" class="text-center container-fluid">
+  {% block title%}
+  <h2>{{subtitle}}</h2>
+  {% endblock %}
+  {% block body%}
+
+  {% block goodreads %}
+  {{ super() }}
+  {% endblock goodreads%}
+
+
+  {% block classreviews%}
+  {{ super() }}
+  {% endblock classreviews %}
+
+  {% block yourreview%}
+  <div class="yourreview container">
+    <h3>Edit Your review</h3>
+    {% for review in reviews %}
+    {% if review.user_id==user %}
+    <div id="ReviewSubmission" class="container">
+      <div class="form-group">
+        <form action = "http://localhost:5000/updatereview" method = "POST" input type="hidden" name="isbn" value={{isbn}}>
+        <span>Number of Stars:</span>
+        <span>
+          <!-- SOMEDAY: Make a loop -->
+          {% if review.num_stars==1 %}
+          <input type="radio" name="options" id="option1" value=1 checked="checked"> 1 </input>
+          {% else %}
+          <input type="radio" name="options" id="option1" value=1> 1 </input>
+          {% endif %}
+          {% if review.num_stars==2 %}
+          <input type="radio" name="options" id="option2" value=2 checked="checked"> 2 </input>
+          {% else %}
+          <input type="radio" name="options" id="option2" value=2> 2 </input>
+          {% endif %}
+          {% if review.num_stars==3 %}
+          <input type="radio" name="options" id="option3" value=3 checked="checked"> 3 </input>
+          {% else %}
+          <input type="radio" name="options" id="option3" value=3> 3 </input>
+          {% endif %}
+          {% if review.num_stars==4 %}
+          <input type="radio" name="options" id="option4" value=4 checked="checked"> 4 </input>
+          {% else %}
+          <input type="radio" name="options" id="option4" value=4> 4 </input>
+          {% endif %}
+          {% if review.num_stars==5 %}
+          <input type="radio" name="options" id="option5" value=5 checked="checked"> 5 </input>
+          {% else %}
+          <input type="radio" name="options" id="option5" value=5> 5 </input>
+          {% endif %}
+        </span>
+        <br><br>
+        <label for="reviewtext">Make Changes Here: </label>
+        <textarea class="form-control" id="reviewtext" name="reviewtext" rows="3"
+        value = "Old Text: {{review.review}}"
+        >{{review.review}}</textarea>
+        <br />
+      <div class="flex-container">
+        <span class="col-xs-2"></span>
+        <span class="col-xs-3">
+          <input type="submit"  value="Update Review" class=" btn btn-primary" id="reviewtext">
+        </span>
+        <span class="col-xs-2"></span>
+        <span class="col-xs-3">
+          <a href="http://localhost:5000/cancel" method = "POST"
+          class = "btn btn-primary">Cancel</a>
+        </span>
+        <span class="col-xs-2"></span>
+      </div> <!-- flex-container -->
+      <!-- </div> container navbar-->
+    </form>
+  </div> <!-- form-group -->
+</div>   <!-- ReviewSubmission -->
+</div>   <!-- yourreview container -->
+{% endif %}
+{% endfor %}
+
+
+{% endblock yourreview%}
+
+
+<div class= "flex-container">
+  <span class="col-xs-2"></span>
+  <span class="col-xs-3">
+    <form action = "http://localhost:5000/search" method = "POST" class = "navbuttons">
+      <input type="submit"  value="Search" class=" btn btn-primary">
+    </form>
+  </span>
+  <span class="col-xs-2"></span>
+  <span class="col-xs-3">
+    <form action = "http://localhost:5000/logout" method = "POST" class = "navbuttons">
+      <input type="submit" value="Logout" class=" btn btn-primary">
+    </form>
+  </span>
+  <span class="col-xs-2"></span>
+</div> <!-- flex-container -->
+{% endblock %}
