@@ -1,52 +1,51 @@
 {% extends "layout.html" %}
 <body id="body" class="text-center container-fluid">
-  <h6>(books.html line 3)</h6>  
+  <h6>(books.html line 3)</h6>
   {% block title%}
+  {{ super() }}
   <h2>{{subtitle}}</h2>
-  <h6>(books.html)</h6>
-  <h6>{{error}}</h6>
+  <h2>{{error}}</h2>
   {% endblock %}
 
   {% block body%}
   <div class="container">
-    <div class="test">
-      {% block form %}
-      <h3> Form Output (for testing)</h3>
-      <p>ISBN: {{isbn}}</p>
-      <p>Title: {{title}}</p>
-      <p>Author: {{author}}</p>
-      <h3>End Form Output</h3>
+    {% block yourinput %}
+    <br>
+    <h4> Your Input: </h4>
+    <div class="nav flex-container-left-vert simpleborder">
+      <div><strong>ISBN:</strong> {{isbn}}</div>
+      <div><strong>Title:</strong> {{title}}</div>
+      <div><strong>Author:</strong> {{author}}</div>
+    </div> <!-- navbar flex-container-->
+  </div> <!-- container -->
+  {% endblock yourinput%}
+
+  <div class="container">
+    <h2> Book Matches</h2>
+
+    {% block books%}
+    {% for book in books %}
+    <p>
+      <span>
+        <form class="onerow" action = "http://localhost:5000/bookpage" method = "POST" >
+          <input type="submit"  id="bookisbn" name = "bookisbn" value = {{ book[1] }} class="btn btn-primary btn-xs">
+        </form>
+        {{ book[1] }},
+        {{ book[2] }},
+        {{ book[3] }}
+      </span>
+      {% endfor %}
       {% endblock %}
-      <!-- block form -->
-      <h2 class="TODO">Fill in books with parital inputs</h2>
-      <h6 class="TODO">Start with test file using Like %a</h6>
-      <div class="container">
-        <h2> Book Matches</h2>
+      <!-- block books -->
+    </p>
 
-        {% block books%}
-        {% for book in books %}
-        <p>
-          <span>
-            <form class="onerow" action = "http://localhost:5000/bookpage" method = "POST" >
-              <input type="submit"  id="bookisbn" name = "bookisbn" value = {{ book[1] }} class="btn-primary btn-xs">
-            </form>
-            {{ book[1] }},
-            {{ book[2] }},
-            {{ book[3] }}
-          </span>
-          {% endfor %}
-          {% endblock %}
-          <!-- block books -->
-        </p>
+  </div><!-- class.container -->
 
-      </div><!-- class.container -->
-    </div> <!-- class.test -->
-  </div> <!-- class.container -->
-  <div class= "navbar">
+  <div class= "navbar flex-container">
     <span class="col-xs-2"></span>
     <span class="col-xs-3">
       <form action = "http://localhost:5000/search" method = "POST" class = "navbuttons">
-        <input type="submit"  value="Search" class="btn-primary">
+        <input type="submit"  value="Search" class="btn btn-primary">
       </form>
     </span>
 
@@ -54,7 +53,7 @@
     <span class="col-xs-2"></span>
     <span class="col-xs-3">
       <form action = "http://localhost:5000/logout" method = "POST" class = "navbuttons">
-        <input type="submit" value="Logout" class="btn-primary">
+        <input type="submit" value="Logout" class="btn btn-primary">
       </form>
     </span>
     <span class="col-xs-2"></span>

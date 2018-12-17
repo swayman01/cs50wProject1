@@ -1,95 +1,153 @@
 {% extends "layout.html" %}
+
 <body id="body" class="text-center container-fluid">
   {% block title%}
+  {{ super() }}
   <h2>{{subtitle}}</h2>
-  <h6>(bookpage.html)</h6>
-  <h6>{{error}}</h6>
-  {% endblock %}
+  {% endblock title%}
+
   {% block body%}
 
-  {% block books%}
+  {% block goodreads %}
   <div class="goodreads container">
     <h3>Goodreads Data</h3>
-    <p class="TODO">Format</p>
     <ul>
-      <li>ISBN: {{isbn}},
-        Title: {{title}},
-        Author: {{author}},
+      {% if nratings!=-1 %}
+      <li>
+        <strong>{{title}}, </strong>
+        by {{author}},
         Number of Ratings: {{nratings}},
-        Average Rating: {{avgrating}}
+        Average Rating: {{avgrating}},
+        published: {{pubyear}}
       </li>
+      {% else %}
+      <li><strong>Not Available for ISBN:</strong> {{isbn}}</li>
+      {% endif %}
     </ul>
   </div> <!-- class.container goodreads-->
-  {% endblock %}
+  {% endblock goodreads%}
 
+  {% block classreviews%}
   <div class="classreviews container">
-    <h3>Reviews from Fellow Classmates</h3>
-    <p class="TODO">Change to No Reviews if there are no reviews</p>
-    {% block classreviews%}
+   {% if revcount==0 %}
+    <h3>No Reviews from Fellow Classmates</h3>
+    <h3>Be the first to review this book</h3>
+   {% endif %}   <!-- revcount==0 -->
+   {% if revcount==1 %}
     {% for review in reviews %}
-    {% if review.user_id!=user %}
-    <ul>
-      <li>User: {{ review.username }}, Number of Stars {{review.num_stars}},
-        Review: {{review.review}}
-      </li>
-    </ul>
-    {% endif %}
+     {% if review.user_id!=user %}  <!-- review is from a classmate -->
+      <h3>Review from a Fellow Classmate</h3>
+        <ul>
+          {% if review.num_stars > 1 %}
+          <li><strong>{{ review.username }} gave {{review.num_stars|int}} stars
+            and said:</strong> {{review.review}}</li>
+          {% else %}
+          <li><strong>{{ review.username }} gave {{review.num_stars|int}} star
+            and said:</strong> {{review.review}}</li>
+          {% endif %}
+        </ul>
+     {% else %}
+      <h3>No Reviews from Fellow Classmates</h3>
+     {% endif %}   <!-- review.user_id!=user -->
     {% endfor %}
-    {% endblock %}
+   {% endif %}   <!-- revcount==1 -->
+
+   {% if revcount>1 %}
+   <h3>Reviews from Fellow Classmates</h3>
+   {% set first_loop=0 %}
+   {% for review in reviews %}
+    {% if review.user_id!=user %}
+     {% if first_loop!=1 %}
+       <hr>
+     {% endif %}
+       <ul>
+         {% if review.num_stars > 1 %}
+         <li><strong>{{ review.username }} gave {{review.num_stars|int}} stars
+           and said:</strong> {{review.review}}</li>
+         {% else %}
+         <li><strong>{{ review.username }} gave {{review.num_stars|int}} star
+           and said:</strong> {{review.review}}</li>
+        {% endif %} <!-- num_stars -->
+       </ul>
+      {% endif %} <!-- review.user_id!=use -->
+     {% endfor %}
+   {% endif %}   <!-- revcount>1 -->
   </div> <!-- class.container classreviews-->
+  {% endblock classreviews %}
 
-  <div class="yourreview container">
-    <h3>Your review</h3>
-    <h5 class="TODO">Add Delete and Edit buttons</h5>
-    <h5 class="TODO">Move Search and Logout outside of the box</h5>
-    {% if book_reviewed == true %}
-    {% for review in reviews %}
-    {% if review.user_id==user %}
-    <p>You gave this book {{review.num_stars}} stars</p>
-    <p>{{review.review}}</p>
-    <p class="TODO">Format</p>
-  </div>
-  {% endif %}
-  {% endfor %}
-  {% endif %}
+  {% block yourreview%}
+   <div class="yourreview container">
+     <h3>Your Review</h3>
+     {% if book_reviewed == true %}
+     {% for review in reviews %}
+     {% if review.user_id==user %}
+     {% if review.num_stars > 1 %}
+     <p><strong>You gave {{review.num_stars|int}} stars and said:</strong></p>
+     <p>{{review.review}}</p>
+     {% else %}
+     <p><strong>You gave {{review.num_stars|int}} star and said:</strong></p>
+     <p>{{review.review}}</p>
+     {% endif %}
 
-  {% if book_reviewed == False %}
-  <div id="ReviewSubmission" class="container">
-    <div class="form-group">
-      <form action = "http://localhost:5000/submitreview" method = "POST"
-      input type="hidden" name="isbn" value={{isbn}}>
-      <p class="TODO">Make number of stars a requirement</p>
-      <span>Number of Stars:</span>
-      <span>
-        <input type="radio" name="options" id="option1" value=1> 1 </input>
-        <input type="radio" name="options" id="option2" value=2> 2 </input>
-        <input type="radio" name="options" id="option3" value=3> 3 </input>
-        <input type="radio" name="options" id="option3" value=4> 4 </input>
-        <input type="radio" name="options" id="option3" value=5> 5 </input>
-      </span>
-      <br><br>
-      <label for="reviewtext">Enter Your Review Here</label>
-      <textarea class="form-control" id="reviewtext" name="reviewtext" rows="3"></textarea>
-      <input type="submit"  value="Submit" class="btn-primary" id="reviewtext">
-    </form>
-  </div>
-</div>
-{% endif %}
+     <div class= "navbar flex-container">
+       <span class="col-xs-2"></span>
+       <span class="col-xs-3">
+         <form action = "http://localhost:5000/edit" method = "POST" class = "navbuttons">
+           <input type="submit"  value="Edit" class="btn btn-primary">
+         </form>
+       </span>
+       <span class="col-xs-2"></span>
+       <span class="col-xs-3">
+         <form action = "http://localhost:5000/delete" method = "POST" class = "navbuttons">
+           <input type="submit" value="Delete" class="btn btn-danger">
+         </form>
+       </span>
+       <span class="col-xs-2"></span>
+     </div> <!-- navbar -->
+   </div> <!-- yourreview container -->
+   {% endif %}
+   {% endfor %}
+   {% endif %}
+   {% if book_reviewed == False %}
+   <div id="ReviewSubmission" class="container">
+     <div class="form-group">
+       <form action = "http://localhost:5000/submitreview" method = "POST"
+       input type="hidden" name="isbn" value={{isbn}}>
+       <span>Number of Stars:</span>
+       <span>
+         <input type="radio" name="options" id="option1" value=1> 1 </input>
+         <input type="radio" name="options" id="option2" value=2> 2 </input>
+         <input type="radio" name="options" id="option3" value=3> 3 </input>
+         <input type="radio" name="options" id="option3" value=4> 4 </input>
+         <input type="radio" name="options" id="option3" value=5> 5 </input>
+       </span>
+       <br><br>
+       <label for="reviewtext">Your Review: </label>
+       <textarea class="form-control" id="reviewtext" name="reviewtext" rows="3"></textarea>
+       <br />
+       <input type="submit"  value="Submit" class="btn btn-primary" id="reviewtext">
+     </form>
+   </div>
 
 
-<div class= "navbar">
-  <span class="col-xs-2"></span>
-  <span class="col-xs-3">
-    <form action = "http://localhost:5000/search" method = "POST" class = "navbuttons">
-      <input type="submit"  value="Search" class="btn-primary">
-    </form>
-  </span>
-  <span class="col-xs-2"></span>
-  <span class="col-xs-3">
-    <form action = "http://localhost:5000/logout" method = "POST" class = "navbuttons">
-      <input type="submit" value="Logout" class="btn-primary">
-    </form>
-  </span>
-  <span class="col-xs-2"></span>
+
+ </div>
+ {% endif %}
+ {% endblock yourreview%}
+
+ <div class= "navbar flex-container">
+   <span class="col-xs-2"></span>
+   <span class="col-xs-3">
+     <form action = "http://localhost:5000/search" method = "POST" class = "navbuttons">
+       <input type="submit"  value="Search" class="btn btn-primary">
+     </form>
+   </span>
+   <span class="col-xs-2"></span>
+   <span class="col-xs-3">
+     <form action = "http://localhost:5000/logout" method = "POST" class = "navbuttons">
+       <input type="submit" value="Logout" class="btn btn-primary">
+     </form>
+   </span>
+   <span class="col-xs-2"></span>
 </div> <!-- navbar -->
-{% endblock %}
+{% endblock body%}

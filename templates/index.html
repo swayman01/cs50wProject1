@@ -1,31 +1,40 @@
 {% extends "layout.html" %}
 <body id="body" class="text-center container-fluid">
   {% block title%}
+  {{ super() }}
   <h2>{{subtitle}}</h2>
-  <h6>(index.html)</h6>
-  <h6 class="TODO">run Chrome audits, including unused css</h6>
-  <h6 class="TODO">Format like next page</h6>
-  <h6 class="TODO">Fix error message when re-registering a current user</h6>
   {% endblock %}
   {% block body%}
   <h6>{{error}} </h6>
   <br />
-  <div class="container">
+  <div class="flex-container">
     <div class= "navbar">
-      <span class="col-xs-2"></span>
-      <span class="col-xs-3">
-        <form action = "http://localhost:5000/login" method = "POST" class = "navbuttons">
-          <input type="submit"  value="Login" class="btn-primary">
-        </form>
+      <!-- <div id="outerrow" class="row"> -->
+      <div id="leftborder" class="col-sm-3"></div>
+      <div class="col-sm-6">
+        <div id="innerrow" class="row">
 
-      </span>
-      <span class="col-xs-2"></span>
-      <span class="col-xs-3">
-        <form action = "http://localhost:5000/registration" method = "POST" class = "navbuttons">
-          <input type="submit" value="Register" class="btn-primary">
-        </form>
-      </span>
-      <span class="col-xs-2"></span>
-    </div>
-  </div>
+          <div class="col-sm-2"></div>
+          <div class="col-sm-3">
+
+            <form action = "http://localhost:5000/login" method = "POST" class = "navbuttons">
+              <input type="submit"  value="Login" class="btn btn-primary">
+            </form>
+
+          </div>
+
+          <div class="col-sm-2"></div>
+          <div class="col-sm-3">
+
+            <form action = "http://localhost:5000/registration" method = "POST" class = "navbuttons">
+              <input type="submit" value="Register" class=" btn btn-primary">
+            </form>
+          </div>
+
+        </div> <!-- inner row-->
+      </div> <!-- col-sm-6 -->
+      <div id="rightborder" class="col-sm-3"></div>
+      <!-- </div> outerrow -->
+    </div> <!-- navbar -->
+  </div> <!-- container -->
   {% endblock %}

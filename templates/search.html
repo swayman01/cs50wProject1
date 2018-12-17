@@ -2,17 +2,17 @@
 
 <body id="body" class="text-center container-fluid">
   {% block title%}
+  {{ super() }}
   <h2>{{subtitle}} </h2>
   <h2>{{error}}</h2>
-  <h6>search.html</h6>
   {% endblock %}
   {% block body%}
+
   <div class="container" >
-    <div class="navbar">
+    <div class="navbar flex-container">
       <div class="col-sm-3"></div>
       <div class="col-sm-6">
-        <p class="TODO">Deactive Search until form has one item</p>
-        <nav>
+        <nav class = "simpleborder">
           <form method="post" action="http://localhost:5000/books" class = "navbuttons">
             <div>
               <label for="isbn">ISBN: </label>
@@ -29,13 +29,13 @@
             <div class="row">
               <div class="col-sm-2"></div>
               <div class="col-sm-3">
-                <input type="submit"  value="Search" class="btn-primary">
+                <input type="submit"  value="Search" class="btn btn-primary">
               </div>
             </form>
             <div class="col-sm-2"></div>
             <div class="col-sm-3">
               <form action = "http://localhost:5000/logout" method = "POST" >
-                <input type="submit" value="Logout" class="btn-primary">
+                <input type="submit" value="Logout" class="btn btn-primary">
               </form>
             </div>
             <div class="col-sm-2"></div>
